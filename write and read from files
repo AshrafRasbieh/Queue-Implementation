@@ -1,0 +1,67 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <iomanip>
+
+using namespace std;
+
+class Employee  {   //creating class employee
+private:
+	string firstName;
+	string lastName;
+	int age;
+
+public:
+	Employee(string, string, int);
+
+	string getFname() { return firstName; } //to get employee first name
+	string getLname() { return lastName; } //to get employee last name
+	int getAge() { return age; }          //to get employee age
+
+};
+
+Employee::Employee(string fName, string lName, int a) {
+	firstName = fName;
+	lastName = lName;
+	age = a;
+}
+
+
+void ouputline(Employee w,Employee v)   // function to output the contents of the file 
+{
+	cout << setw(10) << "First name" << setw(20) << "Last name" << setw(20) << "age" << endl;
+	cout << setw(5) << w.getFname() << setw(23) << w.getLname() << setw(21) << w.getAge() << endl;
+	cout << setw(5) << v.getFname() << setw(23) << v.getLname() << setw(21) << v.getAge() << endl;
+}
+
+
+
+
+int main() {
+
+	Employee worker1("Ashraf", "Rasbeih", 20);
+	Employee worker2("Hamssa", "Rasbeih", 22);
+
+	fstream file1;  //creating the first file (file 1) 
+	fstream file2;  //creating the second file (file 2)
+
+	file1.open("Employee 1", ios::ate);//opening the file 1 
+	file2.open("Employee 2", ios::ate);//opening the file 2
+	
+	cout << "File Employee Created" << endl;
+	
+	file1.write((char*)&worker1, sizeof(worker1));   //writing the objects 0f the first employee of class into the file 1
+	
+	file2.write((char*)&worker2, sizeof(worker2));  //writing the objects 0f the second employee of class into the file 2
+
+	file1.read((char*)&worker1, sizeof(worker1));  // reading the objects of the first employee class from the file 1
+
+	file2.read((char*)&worker2, sizeof(worker2)); //reading the objects of the second employee class from the file 2
+
+	
+	ouputline(worker1,worker2); //outputing the contents of the file 1 and file 2
+	
+
+	file1.close(); //closing file 1
+	file2.close(); //closing file 2
+} 
